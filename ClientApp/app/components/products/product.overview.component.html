@@ -1,0 +1,28 @@
+﻿<h2>Products</h2>
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th style="text-align: center">Actions</th>
+    </tr>
+
+    <tbody *ngIf="products.length > 0" [@fade]>
+    <tr *ngFor="let product of products; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>&euro;{{ product.price }}</td>
+        <td style="text-align: center">
+            <a [routerLink]="['/home']"><span class="glyphicon glyphicon-pencil"></span></a>
+            <a [routerLink]="['/home']"><span class="glyphicon glyphicon-trash"></span></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="loading-container" *ngIf="isLoading" [@fade]>
+    <div class="loader"></div><div class="loader-text">Loading products...</div>
+</div>
