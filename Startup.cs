@@ -5,8 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Shop.Business.Interfaces;
+using Shop.Business.Services;
+using Shop.DataContext;
 
 namespace Shop
 {
@@ -23,6 +27,12 @@ namespace Shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var connection =
+                @"Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Shop;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            services.AddDbContext<ShopContext>(options => options.UseSqlServer(connection));
+
+            services.AddTransient<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -33,6 +33,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 export class ProductOverviewComponent implements OnInit {
     isLoading: boolean = true;
     products: IProduct[] = [];
+    step: number = 0;
 
     constructor(private service: ProductService) { }
 
@@ -45,6 +46,7 @@ export class ProductOverviewComponent implements OnInit {
         if (this.isLoading) return;
 
         if (this.isEndOfPageReached()) {
+            this.step += 1;
             this.loadProducts();
         }
     }
@@ -55,16 +57,16 @@ export class ProductOverviewComponent implements OnInit {
 
     loadProducts(): void {
         this.isLoading = true;
-        this.service.getProducts().then(this.addProducts.bind(this));
+        this.service.getProducts(this.step).then(this.addProducts.bind(this)).catch(this.catch);
+    }
+
+    catch(exception: any): void {
+        console.error(exception);
+        this.isLoading = false;
     }
 
     addProducts(products: IProduct[]): void {
         this.products = this.products.concat(products);
         this.isLoading = false;
     }
-
-
-
-
-
 }
