@@ -40,3 +40,12 @@
         transform: rotate(360deg);
     }
 }
+
+.filter-container {
+    padding: 10px;
+    box-shadow: 1px 1px 1px 1px #AAAAAA;
+}
+
+.pagination li {
+    cursor: pointer;
+}

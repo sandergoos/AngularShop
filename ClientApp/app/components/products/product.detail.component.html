@@ -33,7 +33,7 @@
                           placeholder="Enter description of product"
                           [(ngModel)]="product.description"
                           required
-                          minlength="20"
+                          minlength="5"
                           #description="ngModel"></textarea>
             </div>
             <div *ngIf="description.invalid && (description.dirty || description.touched)"
@@ -76,7 +76,7 @@
                 
             </div>
 
-            <input type="submit" class="btn btn-success" type="submit" [disabled]="!productForm.form.valid" value="Create" />
+            <input type="submit" class="btn btn-success" type="submit" [disabled]="!productForm.form.valid" value="{{ productId ? 'Edit' : 'Create' }}" />
         </form>
     </div>
 </div>

@@ -1,34 +1,72 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IProduct } from '../../interfaces/product.interface';
 import { ProductService } from "../../services/product.service";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     providers: [ProductService],
     selector: 'product-detail',
     templateUrl: 'product.detail.component.html'
 })
-export class ProductDetailComponent {
-
-    constructor(private service: ProductService) {
-        this.product = { name: '', description: '', price: 0 };
-        this.price = { amount: 0, cents: 0 }
-    }
-
+export class ProductDetailComponent implements OnInit, OnDestroy {
+    sub: any;
     submitted: boolean = false;
     product: IProduct;
     price: IPriceInput;
+    productId: number;
+
+    constructor(private service: ProductService,
+        private route: ActivatedRoute,
+        private router: Router) {
+        this.product = { name: '', description: '', price: 0 };
+        this.price = { amount: 0, cents: 0 };
+    }
+
+    ngOnInit() {
+        this.sub = this.route.params.subscribe(params => {
+            this.productId = +params['id'];
+            if (this.productId) {
+                this.getProduct();
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
+    }
 
     priceChanged(): void {
         this.product.price = (this.price.amount + (this.price.cents / 100)).toString();
     }
 
+    getProduct(): void {
+        this.service.getProduct(this.productId).then((response: IProduct) => {
+            this.product = response;
+            this.price.amount = Math.floor(this.product.price);
+            this.price.cents = Math.floor((this.product.price - this.price.amount) * 100);
+        });
+    }
+
     onSubmit() {
-        this.createProduct();
+        if (this.productId) {
+            this.updateProduct();
+        } else {
+            this.createProduct();
+        }
+
         this.submitted = true;
     }
 
     createProduct() {
-        this.service.createProduct(this.product);
+        this.service.createProduct(this.product).then(() => {
+            this.router.navigateByUrl('/products');
+        });
+    }
+
+    updateProduct(): void {
+        this.service.updateProduct(this.product).then(() => {
+            this.router.navigateByUrl('/products');
+        });
     }
 }
 

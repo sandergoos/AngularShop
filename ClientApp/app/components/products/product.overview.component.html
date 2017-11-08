@@ -1,25 +1,53 @@
 ﻿<h2>Products</h2>
 
+<div class="filter-container form-group col-xs-12 col-md-6" [formGroup]="filterForm">
+    <input type="text" name="name" class="form-control" formControlName="name" placeholder="Product name" />
+    <br/>
+    <div class="row">
+        <div class="col-xs-6">
+            <input type="number" name="priceFrom" class="form-control" formControlName="priceFrom" placeholder="price from..." />
+        </div>
+        <div class="col-xs-6">
+            <input type="number" name="priceTill" class="form-control" formControlName="priceTill" placeholder="price upto..." />
+        </div>
+    </div>
+</div>
+
+<a [routerLink]="['/products/create']" style="float: right;">
+    <button class="btn btn-primary">Create</button>
+</a>
+
+<div class="row" style="clear: both">
+    <ul class="pagination">
+        <li *ngFor="let loopStep of steps; let i = index" [ngClass]="{'active': loopStep == step}">
+            <a (click)="updateStep(loopStep)">{{ loopStep + 1 }}</a>
+        </li>
+    </ul>
+</div>
+
+
 <table class="table">
     <tr>
         <th>#</th>
         <th>Name</th>
         <th>Description</th>
         <th>Price</th>
+        <th>Created At</th>
         <th style="text-align: center">Actions</th>
     </tr>
 
     <tbody *ngIf="products.length > 0" [@fade]>
-    <tr *ngFor="let product of products; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.description }}</td>
-        <td>&euro;{{ product.price }}</td>
-        <td style="text-align: center">
-            <a [routerLink]="['/home']"><span class="glyphicon glyphicon-pencil"></span></a>
-            <a [routerLink]="['/home']"><span class="glyphicon glyphicon-trash"></span></a>
-        </td>
-    </tr>
+        <tr *ngFor="let product of products; let i = index">
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>&euro;{{ product.price }}</td>
+            <td>{{ getDateString(product.createdAt) }}</td>
+            <td style="text-align: center">
+                <a [routerLink]="['/products/edit/', product.id]"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a (click)="remove(product.id)"><span class="glyphicon glyphicon-trash"></span></a>
+            </td>
+        </tr>
     </tbody>
 </table>
 

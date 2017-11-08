@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Shop.Business.Interfaces;
 using Shop.Business.Services;
 using Shop.DataContext;
+using Shop.Middleware;
 
 namespace Shop
 {
@@ -53,6 +54,7 @@ namespace Shop
 
             app.UseStaticFiles();
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

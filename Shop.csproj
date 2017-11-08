@@ -28,6 +28,8 @@
   <ItemGroup>
     <None Remove="ClientApp\app\components\products\product.detail.component.ts" />
     <None Remove="ClientApp\app\components\products\product.overview.component.ts" />
+    <None Remove="ClientApp\app\interfaces\filter.interface.ts" />
+    <None Remove="ClientApp\app\interfaces\get-product-response.interface.ts" />
     <None Remove="ClientApp\app\interfaces\product.interface.ts" />
     <None Remove="ClientApp\app\services\product.service.ts" />
   </ItemGroup>
@@ -39,6 +41,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\products\product.detail.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\products\product.overview.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\interfaces\filter.interface.ts" />
+    <TypeScriptCompile Include="ClientApp\app\interfaces\get-product-response.interface.ts" />
     <TypeScriptCompile Include="ClientApp\app\interfaces\product.interface.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\product.service.ts" />
   </ItemGroup>
