@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Business.Interfaces;
 using Shop.Filters;
@@ -9,6 +9,7 @@ using Shop.ResponseModels;
 
 namespace Shop.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class ProductController : Controller
     {
@@ -19,40 +20,38 @@ namespace Shop.Controllers
             _service = service;
         }
 
-        [HttpGet("[action]/{id}")]
-        public Product GetProduct(int id)
-        {
-            return _service.Read(id);
-        }
-       
-        [HttpGet("[action]/{amount}/{step}")]
-        public GetProductsResponse GetProducts(int amount = 20, int step = 0, [FromQuery]ProductFilter filter = null)
-        {
-            if (amount > 1000)
-            {
-                throw new Exception($"Amount {amount} is over max of 1000 products");
-            }
-
-            var products = _service.List(amount, step, filter);
-            return new GetProductsResponse
-            {
-                Products = products,
-                Count = _service.Count()
-            };
-        }
-
         [HttpPost("[action]")]
-        public bool CreateProducts([FromBody]Product product)
+        public async Task<bool> CreateProducts([FromBody] Product product)
         {
-            _service.Create(product);
+            await _service.CreateAsync(product);
             return true;
         }
 
         [HttpDelete("[action]/{productId}")]
-        public bool DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
-            _service.Delete(productId);
+            await _service.DeleteAsync(productId);
             return true;
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<Product> GetProduct(int id)
+        {
+            return await _service.ReadAsync(id);
+        }
+
+        [HttpGet("[action]/{amount}/{step}")]
+        public async Task<GetProductsResponse> GetProducts(int amount, int step, [FromQuery] ProductFilter filter)
+        {
+            if (amount > 1000)
+                throw new Exception($"Amount {amount} is over max of 1000 products");
+
+            var products = await _service.ListAsync(amount, step, filter, filter.OrderBy, filter.Desc);
+            return new GetProductsResponse
+            {
+                Products = products,
+                Count = _service.Count(filter)
+            };
         }
 
         [HttpPut("[action]")]

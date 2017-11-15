@@ -11,6 +11,8 @@
             <input type="number" name="priceTill" class="form-control" formControlName="priceTill" placeholder="price upto..." />
         </div>
     </div>
+    <br>
+    <button class="btn btn-warning" (click)="resetFilter()">Reset</button>
 </div>
 
 <a [routerLink]="['/products/create']" style="float: right;">
@@ -19,26 +21,47 @@
 
 <div class="row" style="clear: both">
     <ul class="pagination">
-        <li *ngFor="let loopStep of steps; let i = index" [ngClass]="{'active': loopStep == step}">
-            <a (click)="updateStep(loopStep)">{{ loopStep + 1 }}</a>
+        <li *ngFor="let loopStep of steps; let i = index" [ngClass]="{'active': loopStep + 1 == filter.page}">
+            <a (click)="updateStep(loopStep + 1)">{{ loopStep + 1 }}</a>
         </li>
     </ul>
 </div>
 
-
-<table class="table">
+<table class="table product-table">
     <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Created At</th>
+        <th (click)="changeOrder('name')">
+            Name
+            <div style="float: right">
+                <span class="glyphicon glyphicon-chevron-up" *ngIf="showOrder('name', false)"></span>
+                <span class="glyphicon glyphicon-chevron-down" *ngIf="showOrder('name', true)"></span>
+            </div>
+        </th>
+        <th (click)="changeOrder('description')">
+            Description
+            <div style="float: right">
+                <span class="glyphicon glyphicon-chevron-up" *ngIf="showOrder('description', false)"></span>
+                <span class="glyphicon glyphicon-chevron-down" *ngIf="showOrder('description', true)"></span>
+            </div>
+        </th>
+        <th (click)="changeOrder('price')">
+            Price
+            <div style="float: right">
+                <span class="glyphicon glyphicon-chevron-up" *ngIf="showOrder('price', false)"></span>
+                <span class="glyphicon glyphicon-chevron-down" *ngIf="showOrder('price', true)"></span>
+            </div>
+        </th>
+        <th (click)="changeOrder('createdAt')">
+            Created At
+            <div style="float: right">
+                <span class="glyphicon glyphicon-chevron-up" *ngIf="showOrder('createdAt', false)"></span>
+                <span class="glyphicon glyphicon-chevron-down" *ngIf="showOrder('createdAt', true)"></span>
+            </div>
+        </th>
         <th style="text-align: center">Actions</th>
     </tr>
 
     <tbody *ngIf="products.length > 0" [@fade]>
         <tr *ngFor="let product of products; let i = index">
-            <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
             <td>&euro;{{ product.price }}</td>
@@ -50,7 +73,3 @@
         </tr>
     </tbody>
 </table>
-
-<div class="loading-container" *ngIf="isLoading" [@fade]>
-    <div class="loader"></div><div class="loader-text">Loading products...</div>
-</div>

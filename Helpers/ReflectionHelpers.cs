@@ -18,5 +18,10 @@ namespace Shop.Helpers
         {
             return new List<Expression<Func<object, bool>>>();
         }
+
+        public static string FirstCharToUpper(this string input)
+        {
+            return input.First().ToString().ToUpper() + input.Substring(1);
+        }
     }
 }

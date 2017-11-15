@@ -1,0 +1,57 @@
+﻿.notifications {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.loading-container {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #222;
+    margin: 5px 0 0 0;
+    font-size: 1em;
+    color: white;
+    z-index: 9999;
+}
+
+.clearblock {
+    clear: both;
+}
+
+    .loading-container .check-gif {
+        margin-left: -40px;
+        padding-top: 6px;
+        margin-right: -50px;
+        width: 110px;
+    }
+
+.loader-text {
+    white-space: nowrap;
+    float: right;
+    padding: 12px 10px 12px 25px;
+}
+
+.loader {
+    border: 12px solid #777; /* Light grey */
+    border-top: 12px solid #3498db; /* Blue */
+    border-bottom: 12px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    float: left;
+}
+
+.center {
+    text-align: center;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -1,51 +1,20 @@
-﻿.loading-container {
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #222;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 1em;
-    color: white;
-    z-index: 9999;
-}
-
-.loader-text {
-    width: 150px;
-    float: right;
-    padding: 12px 0 12px 20px;
-}
-
-.loader {
-    border: 12px solid #777; /* Light grey */
-    border-top: 12px solid #3498db; /* Blue */
-    border-bottom: 12px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    float: left;
-}
-
-.center {
-    text-align: center;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.filter-container {
+﻿.filter-container {
     padding: 10px;
     box-shadow: 1px 1px 1px 1px #AAAAAA;
 }
 
 .pagination li {
     cursor: pointer;
+}
+
+.product-table th {
+    -ms-transition: all ease-in-out 200ms;
+    -o-transition: all ease-in-out 200ms;
+    -webkit-transition: all ease-in-out 200ms;
+    transition: all ease-in-out 200ms;
+    cursor: pointer;
+}
+
+.product-table th:hover {
+    background-color: rgb(244, 244, 244);
 }

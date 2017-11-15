@@ -2,24 +2,20 @@
 import { IProduct } from "../interfaces/product.interface";
 import { IFilter } from '../interfaces/filter.interface';
 import 'rxjs/add/operator/toPromise';
-import { URLSearchParams, Http } from '@angular/http';
 import { IGetProductResponse } from "../interfaces/get-product-response.interface";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable()
 export class ProductService {
-    constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string) { }
+    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+    }
 
-    private params: URLSearchParams;
+    private params: HttpParams;
 
-    getProducts(step: number, filter: IFilter): Promise<IGetProductResponse> {
+    getProducts(filter: IFilter): Promise<IGetProductResponse> {
         this.objToSearchParams(filter);
-        return this.http.get(this.baseUrl + 'api/Product/GetProducts/40/' + step,
-            {
-                params: this.params
-            })
-            .toPromise()
-            .then(response => response.json() as IGetProductResponse)
-            .catch(this.handleError);
+        return this.http.get<IGetProductResponse>(`${this.baseUrl}api/Product/GetProducts/${filter.amount}/${filter.page - 1}`, { params : this.params })
+            .toPromise();
     }
 
     createProduct(product: IProduct): Promise<boolean> {
@@ -44,7 +40,7 @@ export class ProductService {
     }
 
     private objToSearchParams(obj: any) {
-        this.params = new URLSearchParams();
+        this.params = new HttpParams();
 
         for (var key in obj) {
             if (obj.hasOwnProperty(key))
@@ -55,7 +51,7 @@ export class ProductService {
     getProduct(productId: number): Promise<IProduct> {
         return this.http.get(this.baseUrl + 'api/Product/GetProduct/' + productId)
             .toPromise()
-            .then(response => response.json() as IProduct)
+            .then(response => response as IProduct)
             .catch(this.handleError);
     }
 
@@ -66,4 +62,8 @@ export class ProductService {
             .then(() => true)
             .catch(this.handleError);
     }
+}
+
+export interface ItemsResponse {
+    results: string[];
 }

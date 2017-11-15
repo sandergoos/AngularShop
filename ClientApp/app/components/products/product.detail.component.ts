@@ -2,6 +2,7 @@
 import { IProduct } from '../../interfaces/product.interface';
 import { ProductService } from "../../services/product.service";
 import { ActivatedRoute, Router } from '@angular/router';
+import { EventService } from "../../services/event.service";
 
 @Component({
     providers: [ProductService],
@@ -17,7 +18,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
     constructor(private service: ProductService,
         private route: ActivatedRoute,
-        private router: Router) {
+        private router: Router,
+        private eventService: EventService) {
         this.product = { name: '', description: '', price: 0 };
         this.price = { amount: 0, cents: 0 };
     }
@@ -58,15 +60,16 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     }
 
     createProduct() {
-        this.service.createProduct(this.product).then(() => {
-            this.router.navigateByUrl('/products');
-        });
+        this.service.createProduct(this.product).then(this.success.bind(this));
     }
 
     updateProduct(): void {
-        this.service.updateProduct(this.product).then(() => {
-            this.router.navigateByUrl('/products');
-        });
+        this.service.updateProduct(this.product).then(this.success.bind(this));
+    }
+
+    success(): void {
+        this.router.navigateByUrl('/products');
+        this.eventService.emit("showSuccess", "Product successfully created!");
     }
 }
 
