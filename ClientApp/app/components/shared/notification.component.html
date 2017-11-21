@@ -1,13 +1,11 @@
 ﻿<div class="notifications">
-    <div class="loading-container" *ngIf="loading" [@flyInOut]>
-        <div class="loader"></div><div class="loader-text">{{ loadingMessage }}</div>
-        <div class="clearblock"></div>
-
-    </div>
-
-    <div class="loading-container" *ngIf="successMessage != ''" [@flyInOut]>
-        <img src="/check-gif.webp" class="check-gif"/>
-        <div class="loader-text">{{ successMessage }}</div>
+    
+    <div class="loading-container" *ngFor="let notification of notifications; let i = index" [@flyInOut]>
+        <div class="loader" *ngIf="notification.type === 'loading'"></div>
+        <img src="/error.png" class="error-image" *ngIf="notification.type === 'error'" />
+        <img src="/check-gif.webp" class="check-gif" *ngIf="notification.type === 'success'" />
+        <div class="loader-text">{{ notification.text }}</div>
         <div class="clearblock"></div>
     </div>
+
 </div>

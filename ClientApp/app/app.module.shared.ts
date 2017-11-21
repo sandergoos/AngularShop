@@ -12,15 +12,17 @@ import { ProductDetailComponent } from "./components/products/product.detail.com
 import { NotificationComponent } from "./components/shared/notification.component";
 import { EventService } from "./services/event.service";
 import { TokenInterceptor } from "./auth/token.interceptor";
+import { LoginComponent } from "./components/login/login.component";
+import { AuthenticationService } from "./services/auth.service";
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
-        HomeComponent,
         ProductOverviewComponent,
         ProductDetailComponent,
-        NotificationComponent
+        NotificationComponent,
+        LoginComponent
     ],
     imports: [
         CommonModule,
@@ -28,8 +30,8 @@ import { TokenInterceptor } from "./auth/token.interceptor";
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
+            { path: 'login', component: LoginComponent },
             { path: 'products', component: ProductOverviewComponent },
             { path: 'products/create', component: ProductDetailComponent },
             { path: 'products/edit/:id', component: ProductDetailComponent },
@@ -41,7 +43,8 @@ import { TokenInterceptor } from "./auth/token.interceptor";
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,
             multi: true
-        }
+        },
+        AuthenticationService
     ]
 })
 export class AppModuleShared {

@@ -7,15 +7,18 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable()
 export class ProductService {
-    constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+    constructor(private http: HttpClient,
+        @Inject('BASE_URL')
+        private baseUrl: string) {
     }
 
     private params: HttpParams;
 
     getProducts(filter: IFilter): Promise<IGetProductResponse> {
-        this.objToSearchParams(filter);
-        return this.http.get<IGetProductResponse>(`${this.baseUrl}api/Product/GetProducts/${filter.amount}/${filter.page - 1}`, { params : this.params })
-            .toPromise();
+        var params = this.objToSearchParams(filter);
+        return this.http.get<IGetProductResponse>(`${this.baseUrl}api/Product/GetProducts/${filter.amount}/${filter.page - 1}`,
+            { params: params }
+        ).toPromise();
     }
 
     createProduct(product: IProduct): Promise<boolean> {
@@ -39,13 +42,15 @@ export class ProductService {
         return Promise.reject(error.message || error);
     }
 
-    private objToSearchParams(obj: any) {
-        this.params = new HttpParams();
+    private objToSearchParams(obj: any): HttpParams {
+        let params = new HttpParams();
 
         for (var key in obj) {
             if (obj.hasOwnProperty(key))
-                this.params.set(key, obj[key]);
+                params = params.append(key, obj[key]);
         }
+
+        return params;
     }
 
     getProduct(productId: number): Promise<IProduct> {

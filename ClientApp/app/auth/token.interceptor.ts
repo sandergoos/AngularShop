@@ -3,17 +3,38 @@ import {
     HttpRequest,
     HttpHandler,
     HttpEvent,
-    HttpInterceptor
+    HttpInterceptor,
+    HttpErrorResponse
     } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import { Router } from "@angular/router";
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
+
+    constructor(private router: Router) { }
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        request = request.clone({
-            setHeaders: {
-                Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiSm9obiIsImVtYWlsIjoiam9obi5kb2VAYmxpbmtpbmdjYXJldC5jb20iLCJuYmYiOjE1MTA3NTIxODQsImV4cCI6MTUxMDc1MjE5NCwiaXNzIjoiU2hvcCIsImF1ZCI6IlNob3BNYW5hZ2VtZW50In0.ksqrThRbfQ_TGdeUFzk2ClE32HmJ4Cwxl8XAwh2eG00`
-            }
-        });
-        return next.handle(request);
+
+        if (typeof localStorage !== 'undefined') {
+            request = request.clone({
+                setHeaders: {
+                    Authorization: `Bearer ` + localStorage.getItem('token')
+                }
+            });
+        }
+
+        return next.handle(request)
+            .do((event: HttpEvent<any>) => {
+                // Do something with the event
+            },
+            (err: any) => {
+                if (err instanceof HttpErrorResponse) {
+                    if (err.status === 401) {
+                        this.router.navigate(["/login"]);
+                    }
+                }
+            });
     }
-}
+};

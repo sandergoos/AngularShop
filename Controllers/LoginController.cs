@@ -19,16 +19,14 @@ namespace Shop.Controllers
     public class LoginController : Controller
     {
         private readonly ILoginService _service;
-        private readonly ShopContext _context;
 
         public LoginController(ILoginService service, ShopContext context)
         {
             _service = service;
-            _context = context;
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> GetToken(LoginCredentials credentials)
+        public async Task<IActionResult> Authenticate([FromBody]LoginCredentials credentials)
         {
             var isAuthorized = await _service.IsAuthorizedAsync(credentials);
             if (!isAuthorized)

@@ -1,6 +1,16 @@
-﻿.filter-container {
-    padding: 10px;
-    box-shadow: 1px 1px 1px 1px #AAAAAA;
+﻿.filter-container.form-group {
+    margin: 0;
+    margin-bottom: 0;
+}
+
+.pagination {
+    margin: 0;
+    padding: 0;
+}
+
+.pagination-container {
+    float: right;
+    padding: 0 15px;
 }
 
 .pagination li {

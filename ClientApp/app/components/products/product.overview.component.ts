@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { IProduct } from '../../interfaces/product.interface';
 import { IFilter } from '../../interfaces/filter.interface';
@@ -11,6 +11,7 @@ import 'rxjs/add/observable/fromEvent';
 import { EventService } from "../../services/event.service";
 import { fade } from '../../animations';
 import { Router, ActivatedRoute, Params } from "@angular/router";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
     templateUrl: './product.overview.component.html',
@@ -25,7 +26,8 @@ export class ProductOverviewComponent implements OnInit {
     filter: IFilter;
     steps: number[] = [];
 
-    constructor(private service: ProductService,
+    constructor( @Inject(DOCUMENT) private doc: any,
+        private service: ProductService,
         private fb: FormBuilder,
         private eventService: EventService,
         private router: Router,
@@ -35,6 +37,10 @@ export class ProductOverviewComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((params: Params) => {
             this.createFilterForm(params);
         });
+
+        if (typeof this.doc.body.style !== 'undefined') {
+            this.doc.body.classList.remove("login");
+        }
     }
 
     createFilterForm(params: Params): void {
@@ -46,7 +52,7 @@ export class ProductOverviewComponent implements OnInit {
             priceTill: 0,
             orderBy: 'id',
             desc: false,
-            amount: 40,
+            amount: 20,
             page: 1
         };
 
@@ -87,7 +93,7 @@ export class ProductOverviewComponent implements OnInit {
     processLoadingResponse(response: IGetProductResponse): void {
         this.addProducts(response.products);
 
-        const amountOfSteps = Math.ceil(response.count / 40);
+        const amountOfSteps = Math.ceil(response.count / this.filterForm.value.amount);
 
         this.steps = [];
         for (let i = 0; i < amountOfSteps; i++) {
@@ -130,7 +136,7 @@ export class ProductOverviewComponent implements OnInit {
 
     changeOrder(orderParam: string) {
         if (this.filterForm.value.orderBy === orderParam) {
-            this.filterForm.value.desc = !this.filterForm.value.desc;
+            this.filterForm.value.desc = !(this.filterForm.value.desc === "true");
         } else {
             this.filterForm.value.desc = false;
         }
@@ -140,7 +146,7 @@ export class ProductOverviewComponent implements OnInit {
     }
 
     showOrder(param: string, desc: boolean): boolean {
-        return this.filterForm.value.orderBy === param && this.filterForm.value.desc === desc;
+        return this.filterForm.value.orderBy === param && (this.filterForm.value.desc === 'true') === desc;
     }
 
     loadingStart() {

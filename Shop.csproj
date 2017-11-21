@@ -23,12 +23,15 @@
   <ItemGroup>
     <None Remove="ClientApp\app\animations.ts" />
     <None Remove="ClientApp\app\auth\token.interceptor.ts" />
+    <None Remove="ClientApp\app\components\login\login.component.ts" />
     <None Remove="ClientApp\app\components\products\product.detail.component.ts" />
     <None Remove="ClientApp\app\components\products\product.overview.component.ts" />
     <None Remove="ClientApp\app\components\shared\notification.component.ts" />
     <None Remove="ClientApp\app\interfaces\filter.interface.ts" />
     <None Remove="ClientApp\app\interfaces\get-product-response.interface.ts" />
+    <None Remove="ClientApp\app\interfaces\login-credentials.interface.ts" />
     <None Remove="ClientApp\app\interfaces\product.interface.ts" />
+    <None Remove="ClientApp\app\services\auth.service.ts" />
     <None Remove="ClientApp\app\services\product.service.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -37,12 +40,15 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\animations.ts" />
     <TypeScriptCompile Include="ClientApp\app\auth\token.interceptor.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\login\login.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\products\product.detail.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\products\product.overview.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\shared\notification.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\interfaces\filter.interface.ts" />
     <TypeScriptCompile Include="ClientApp\app\interfaces\get-product-response.interface.ts" />
+    <TypeScriptCompile Include="ClientApp\app\interfaces\login-credentials.interface.ts" />
     <TypeScriptCompile Include="ClientApp\app\interfaces\product.interface.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\auth.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\event.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\product.service.ts" />
   </ItemGroup>

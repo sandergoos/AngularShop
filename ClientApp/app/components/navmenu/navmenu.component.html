@@ -13,13 +13,13 @@
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home']">
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/products']">
                         <span class='glyphicon glyphicon-shopping-cart'></span> Products
+                    </a>
+                </li>
+                <li (click)="logout()">
+                    <a>
+                        <span class='glyphicon glyphicon-log-out'></span> Logout
                     </a>
                 </li>
             </ul>

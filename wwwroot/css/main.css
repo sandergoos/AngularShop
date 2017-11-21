@@ -1,0 +1,8 @@
+﻿body.login {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/23/Lake_mapourika_NZ.jpeg');
+    background-size: cover;
+    background-attachment: fixed;
+    -ms-background-position: center center;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
