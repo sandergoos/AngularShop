@@ -16,8 +16,26 @@ namespace Shop.DataContext
             );
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CompanyUser>()
+                .HasKey(t => new { t.CompanyId, t.UserId });
+
+            modelBuilder.Entity<CompanyUser>()
+                .HasOne(pt => pt.User)
+                .WithMany(p => p.CompanyUsers)
+                .HasForeignKey(pt => pt.UserId);
+
+            modelBuilder.Entity<CompanyUser>()
+                .HasOne(pt => pt.Company)
+                .WithMany(t => t.CompanyUsers)
+                .HasForeignKey(pt => pt.CompanyId);
+        }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Company> Companies { get; set; }
     }
 }

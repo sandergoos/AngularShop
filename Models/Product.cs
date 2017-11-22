@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Shop.Extentions;
 
 namespace Shop.Models
@@ -18,6 +16,21 @@ namespace Shop.Models
         public string Description { get; set; }
 
         public decimal Price { get; set; }
+
+        public int CompanyId { get; set; }
+
+        [ForeignKey("CompanyId")]
+        public virtual Company Company { get; set; }
+
+        public int? CreatedById { get; set; }
+
+        [ForeignKey("CreatedById")]
+        public virtual User CreatedBy { get; set; }
+
+        public int? UpdatedById { get; set; }
+
+        [ForeignKey("UpdatedById")]
+        public virtual User UpdatedBy { get; set; }
 
         public DateTime? CreatedAt
         {
